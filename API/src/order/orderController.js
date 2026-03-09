@@ -36,7 +36,7 @@ exports.newOrder = (request, response) => {
       databaseConnection.query("INSERT INTO items SET ?", newItem);
     });
 
-    //Retorna HTTP status: 200 - Created.
+    //Retorna HTTP status: 201 - Created.
     response.status(201).json({ message: "O pedido foi criado com sucesso!" });
   });
 };
@@ -70,14 +70,18 @@ exports.findOrderById = (request, response) => {
       if (error) {
         return response.status(500).json(error);
       }
-
+      
       //Se orderResult for vazio retorna HTTP status: 404 - Not Found.
       if (orderResult.length === 0) {
         return response.status(404).json({ message: "Pedido não encontrado!" });
       }
-
+      
       //Criando a SQL query e realizando busca de "items" no banco de dados.
       databaseConnection.query("SELECT * FROM items WHERE orderId = ?", [orderId], (error, itemsResult) => {
+        //Em caso de erro retorna HTTP status: 500 - Internal Server Error.
+        if (error) {
+          return response.status(500).json(error);
+        }
 
         //Retorna HTTP status: 200 - OK Status Code, mais um JSON com o pedido e seus items.
         response.status(200).json({
