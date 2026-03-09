@@ -1,6 +1,10 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 
+
+//Instância "authRoutes.js" para interação.
+const authRoutes = require("../auth/authRoutes");
+
 //Instância "orderRoutes.js" para interação.
 const orderRoutes = require("../order/orderRoutes");
 
@@ -9,6 +13,10 @@ const orderApp = express();
 
 orderApp.use(bodyParser.json());
 
+//LOGIN
+orderApp.use("/", authRoutes);
+
+//ORDERS
 orderApp.use("/", orderRoutes);
 
 orderApp.listen(3000, () => {
