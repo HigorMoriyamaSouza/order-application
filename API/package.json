@@ -1,0 +1,26 @@
+{
+  "name": "order-app",
+  "version": "1.0.0",
+  "description": "Aplicação back-end para gerenciamento de pedidos.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HigorMoriyamaSouza/order-app.git"
+  },
+  "keywords": [],
+  "author": "Higor Moriyama Souza",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/HigorMoriyamaSouza/order-app/issues"
+  },
+  "homepage": "https://github.com/HigorMoriyamaSouza/order-app#readme",
+  "dependencies": {
+    "body-parser": "^2.2.2",
+    "express": "^5.2.1",
+    "mysql2": "^3.19.0"
+  }
+}
