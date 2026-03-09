@@ -5,6 +5,12 @@ const router = express.Router();
 //Cria instância de "orderController.js" para interação.
 const orderController = require("./orderController");
 
+//Cria instância de "authMiddleware.js" para proteção dos endpoints.
+const authMiddleware = require("../middlewares/authMiddleware");
+
+//Protege todos os endpoints abaixo.
+router.use(authMiddleware);
+
 /*
  * CREATE
  */
