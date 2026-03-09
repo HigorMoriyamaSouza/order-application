@@ -1,8 +1,8 @@
-//Instância do servidor Express e do Express Router.
+//Cria instância do servidor Express e do Express Router.
 const express = require("express");
 const router = express.Router();
 
-//Instância "orderController.js" para interação.
+//Cria instância de "orderController.js" para interação.
 const orderController = require("./orderController");
 
 /*
@@ -14,7 +14,7 @@ router.post("/order", orderController.newOrder);
 /*
  * READ
  */
-//Endpoint para buscar todos os pedido no banco. 
+//Endpoint para buscar todos os pedidos no banco. 
 router.get("/order/list", orderController.listOrders);
 
 //Endpoint para buscar pedido por Id.

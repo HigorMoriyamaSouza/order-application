@@ -1,15 +1,14 @@
-//Instância databaseConnection para realizar interações com o banco de dados.
+//Cria instância de "databaseConnection.js" para realizar interações com o banco de dados.
 const databaseConnection = require("../database/databaseConnection");
 
 /*
  * CREATE
  */
 exports.newOrder = (request, response) => {
-
-  //Destructuring do body da request pegando as informações do novo pedido.
+  //Destructuring de request.body, pegando as informações do novo pedido.
   const { numeroPedido, valorTotal, dataCriacao, items } = request.body;
 
-  //Transformando dados do pedido para save em banco.
+  //Transformando dados do pedido para o formato exigído para save em banco.
   const order = {
     orderId: numeroPedido,
     value: valorTotal,
@@ -18,7 +17,6 @@ exports.newOrder = (request, response) => {
 
   //Criando a SQL query e realizando save de "order" no banco de dados.
   databaseConnection.query("INSERT INTO orders SET ?", order, (error) => {
-
     //Em caso de erro retorna HTTP status: 500 - Internal Server Error.
     if (error) {
       return response.status(500).json(error);
@@ -26,8 +24,7 @@ exports.newOrder = (request, response) => {
 
     //Itera "items" já realizando save de cada item no banco.
     items.forEach((item) => {
-
-      //Transformando dados de item para save em banco.
+      //Transformando dados de item para o formato exigído para save em banco.
       const newItem = {
         orderId: numeroPedido,
         productId: parseInt(item.idItem),
@@ -37,12 +34,10 @@ exports.newOrder = (request, response) => {
 
       //Criando a SQL query e realizando save de "item" no banco de dados.
       databaseConnection.query("INSERT INTO items SET ?", newItem);
-
     });
 
-    //Retorna HTTP status: 200 - OK Status Code.
-    response.status(200).json({ message: "O pedido foi criado com sucesso!" });
-
+    //Retorna HTTP status: 200 - Created.
+    response.status(201).json({ message: "O pedido foi criado com sucesso!" });
   });
 };
 
@@ -50,10 +45,8 @@ exports.newOrder = (request, response) => {
  * READ ALL
  */
 exports.listOrders = (request, response) => {
-
-  //Criando a SQL query e realizando busca de todas as "orders".
+  //Criando a SQL query e realizando busca de todas os pedidos.
   databaseConnection.query("SELECT * FROM orders", (error, orderResults) => {
-
     //Em caso de erro retorna HTTP status: 500 - Internal Server Error.
     if (error) {
       return response.status(500).json(error);
@@ -61,22 +54,18 @@ exports.listOrders = (request, response) => {
 
      //Retorna HTTP status: 200 - OK Status Code, mais ordens.
     response.status(200).json(orderResults);
-
   });
-
 }
 
 /*
  * READ BY ID
  */
 exports.findOrderById = (request, response) => {
-
-  //Extrai id dos parâmetros da request e salva em "orderId"
+  //Extrai id dos parâmetros da request e salva em "orderId".
   const orderId = request.params.orderId;
 
-  //Criando a SQL query e realizando busca de "order" no banco de dados.
+  //Criando a SQL query e realizando busca do pedido no banco de dados.
   databaseConnection.query("SELECT * FROM orders WHERE orderId = ?", [orderId], (error, orderResult) => {
-      
       //Em caso de erro retorna HTTP status: 500 - Internal Server Error.
       if (error) {
         return response.status(500).json(error);
@@ -96,7 +85,6 @@ exports.findOrderById = (request, response) => {
           items: itemsResult
         });
       });
-
   });
 };
 
@@ -104,16 +92,14 @@ exports.findOrderById = (request, response) => {
  * UPDATE
  */
 exports.updateOrder = (request, response) => {
-
-  //Extrai id dos parâmetros da request e salva em "orderId"
+  //Extrai id dos parâmetros da request e salva em "orderId".
   const orderId = request.params.orderId;
 
-  //Destructuring do body da request pegando "valorTotal" para atualizar no pedido.
+  //Destructuring da request.body pegando "valorTotal" para atualizar no pedido.
   const { valorTotal } = request.body;
 
   //Criando a SQL query e realizando UPDATE do pedido no banco de dados.
   databaseConnection.query("UPDATE orders SET value = ? WHERE orderId = ?", [valorTotal, orderId], (error) => {
-      
       //Em caso de erro retorna HTTP status: 500 - Internal Server Error.
       if (error) {
         return response.status(500).json(error);
@@ -121,17 +107,14 @@ exports.updateOrder = (request, response) => {
 
       //Retorna HTTP status: 200 - OK Status Code.
       response.status(200).json({ message: "Pedido atualizado com sucesso!" });
-      
   });
-
 }
 
 /*
  * DELETE
  */
 exports.deleteOrder = (request, response) => {
-
-  //Extrai id dos parâmetros da request e salva em "orderId"
+  //Extrai id dos parâmetros da request e salva em "orderId".
   const orderId = request.params.orderId;
 
   //Criando a SQL query e realizando DELETE dos itens do pedido no banco de dados.
@@ -139,7 +122,6 @@ exports.deleteOrder = (request, response) => {
   
   //Criando a SQL query e realizando DELETE do pedido no banco de dados.
   databaseConnection.query("DELETE FROM orders WHERE orderId = ?", [orderId], (error) => {
-
       //Em caso de erro retorna HTTP status: 500 - Internal Server Error.
       if (error) {
         return response.status(500).json(error);
@@ -147,7 +129,5 @@ exports.deleteOrder = (request, response) => {
 
       //Retorna HTTP status: 200 - OK Status Code.
       response.status(200).json({ message: "Pedido deletado com sucesso!" });
-
   });
-
 }
