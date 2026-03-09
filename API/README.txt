@@ -25,7 +25,9 @@ Armazenar os dados dos pedidos em um banco de dados (Mongodb, SQL ou PostgreSql)
 Recursos Adicionais Implementados: 
 ● Autenticação básica usando tokens JWT. 
   -> OBS: instruções para criação do usuário para testes da API estão no arquivo "generateHash.js".
-
+  
+● Documentação da API com Postman.
+  -> Segue link da documentação do projeto: https://documenter.getpostman.com/view/50687802/2sBXcLhdiG
 
 Comandos SQL para criação da base de dados do projeto:
     CREATE DATABASE orderdb;
